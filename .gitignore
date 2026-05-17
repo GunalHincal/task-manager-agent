@@ -7,7 +7,11 @@ __pycache__/
 venv/
 env/
 ENV/
-.venv
+.venv/
+
+# Environment variables
+.env
+*.env
 
 # IDE
 .vscode/
@@ -28,5 +32,5 @@ dist/
 build/
 *.egg-info/
 
-# Data files (optional - görevleri saklamak isterseniz kaldırın)
+# Data files
 # gorevler.json
