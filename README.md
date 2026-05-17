@@ -1,6 +1,6 @@
 # Task Manager Agent
 
-A smart bilingual task management agent built with Python, Flask, and Vanilla JavaScript — no heavy frameworks, no magic.
+A smart bilingual task management agent built with Python, Flask, and Vanilla JavaScript, no heavy frameworks, no magic.
 
 This project demonstrates the core logic of an agent in a simple and transparent way. It was built as a companion to a Medium article series about learning agents step by step.
 
@@ -8,7 +8,7 @@ This project demonstrates the core logic of an agent in a simple and transparent
 
 ---
 
-<a name="english"></a>
+`<a name="english"></a>`
 
 ## Live Demo
 
@@ -20,7 +20,7 @@ Live demo: *(will be added after deployment)*
 
 This project does not use CrewAI, LangChain, or OpenAI Agents SDK.
 
-Instead, it demonstrates one key idea: **an agent is not just code that displays data — it is code that analyzes state and decides what to do next.**
+Instead, it demonstrates one key idea: **an agent is not just code that displays data, it is code that analyzes state and decides what to do next.**
 
 ```text
 Collect task data
@@ -34,21 +34,21 @@ Generate recommendations
 Guide the user toward action
 ```
 
-This loop runs on every request. The agent reads the current task list, evaluates conditions, and produces contextual recommendations — all in plain Python, no framework required.
+This loop runs on every request. The agent reads the current task list, evaluates conditions, and produces contextual recommendations, all in plain Python, no framework required.
 
 ---
 
 ## Features
 
-- **Task Creation** — Add tasks with title, priority, and due date
-- **Priority Management** — Low, medium, and high priority levels
-- **Daily Report** — Total, completed, and pending task statistics
-- **Rule-Based Recommendations** — Detects overdue tasks, today's tasks, high-priority items, and upcoming deadlines
-- **Optional OpenAI Integration** — Enhances recommendations only when enabled and only for critical cases
-- **Google Calendar Integration** — Opens a pre-filled Google Calendar event for each task (no OAuth required)
-- **Bilingual Interface** — Turkish and English UI with localStorage persistence
-- **Filtering** — All, pending, completed, high-priority views
-- **Responsive Design** — Works on desktop and mobile
+- **Task Creation**: Add tasks with title, priority, and due date
+- **Priority Management**: Low, medium, and high priority levels
+- **Daily Report**: Total, completed, and pending task statistics
+- **Rule-Based Recommendations**: Detects overdue tasks, today's tasks, high-priority items, and upcoming deadlines
+- **Optional OpenAI Integration**: Enhances recommendations only when enabled and only for critical cases
+- **Google Calendar Integration**: Opens a pre-filled Google Calendar event for each task (no OAuth required)
+- **Bilingual Interface**: Turkish and English UI with localStorage persistence
+- **Filtering**: All, pending, completed, high-priority views
+- **Responsive Design**: Works on desktop and mobile
 
 ---
 
@@ -65,7 +65,7 @@ Works without any API key. The agent reads the task list and produces human-read
 - High-priority flags
 - Upcoming deadline warnings
 
-These are generated through structured rule logic and templates in `agent.py` — not by a language model.
+These are generated through structured rule logic and templates in `agent.py` not by a language model.
 
 Example output:
 
@@ -194,16 +194,16 @@ task-manager-agent/
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/health` | Health check |
-| GET | `/api/gorevler` | Fetch all tasks |
-| POST | `/api/gorevler` | Create a task |
-| PUT | `/api/gorevler/{id}` | Mark as completed |
-| DELETE | `/api/gorevler/{id}` | Delete a task |
-| GET | `/api/rapor` | Daily report |
-| GET | `/api/oneriler?lang=en` | Agent recommendations |
-| GET | `/api/gorevler/{id}/calendar` | Google Calendar event |
+| Method | Endpoint                        | Description           |
+| ------ | ------------------------------- | --------------------- |
+| GET    | `/api/health`                 | Health check          |
+| GET    | `/api/gorevler`               | Fetch all tasks       |
+| POST   | `/api/gorevler`               | Create a task         |
+| PUT    | `/api/gorevler/{id}`          | Mark as completed     |
+| DELETE | `/api/gorevler/{id}`          | Delete a task         |
+| GET    | `/api/rapor`                  | Daily report          |
+| GET    | `/api/oneriler?lang=en`       | Agent recommendations |
+| GET    | `/api/gorevler/{id}/calendar` | Google Calendar event |
 
 ---
 
@@ -219,19 +219,17 @@ On Render, the JSON file resets on each redeploy.
 
 ## Links
 
-**Medium Article:** *(will be added)*
-
-**Live Demo:** *(will be added after deployment)*
+**Live Demo:** [https://taskmanageragent.onrender.com/](https://taskmanageragent.onrender.com/)
 
 ---
 
 ---
 
-<a name="türkçe"></a>
+`<a name="türkçe"></a>`
 
 # Görev Yöneticisi Agent
 
-Python, Flask ve Vanilla JavaScript ile geliştirilmiş akıllı, iki dilli bir görev yöneticisi — ağır framework'ler yok, sihir yok.
+Python, Flask ve Vanilla JavaScript ile geliştirilmiş akıllı, iki dilli bir görev yöneticisi, ağır framework'ler yok, sihir yok.
 
 Bu proje, bir Medium makale serisinin parçası olarak geliştirildi. Amaç: agent mantığını, framework'lere bağımlı kalmadan, sade Python ile göstermek.
 
@@ -239,7 +237,7 @@ Bu proje, bir Medium makale serisinin parçası olarak geliştirildi. Amaç: age
 
 ## Canlı Demo
 
-Canlı demo: *(deployment sonrası eklenecek)*
+Canlı demo: [https://taskmanageragent.onrender.com/](https://taskmanageragent.onrender.com/)
 
 ---
 
@@ -247,7 +245,7 @@ Canlı demo: *(deployment sonrası eklenecek)*
 
 Proje CrewAI, LangChain veya OpenAI Agents SDK kullanmıyor.
 
-Burada gösterilmek istenen tek temel fikir şu: **Bir agent, yalnızca veri gösteren kod değildir — mevcut durumu analiz edip bir sonraki adıma karar veren koddur.**
+Burada gösterilmek istenen tek temel fikir şu: **Bir agent, yalnızca veri gösteren kod değildir, mevcut durumu analiz edip bir sonraki adıma karar veren koddur.**
 
 ```text
 Görev verisi topla
@@ -261,21 +259,21 @@ Gecikmiş / acil / yüksek öncelikli görevleri tespit et
 Kullanıcıyı eyleme yönlendir
 ```
 
-Bu döngü her istekte çalışır. Agent, görev listesini okur, koşulları değerlendirir ve bağlamsal öneriler üretir — sade Python, framework gerektirmez.
+Bu döngü her istekte çalışır. Agent, görev listesini okur, koşulları değerlendirir ve bağlamsal öneriler üretir, sade Python, framework gerektirmez.
 
 ---
 
 ## Özellikler
 
-- **Görev Oluşturma** — Başlık, öncelik ve tarih ile görev ekle
-- **Öncelik Yönetimi** — Düşük, orta, yüksek seviyeleri
-- **Günlük Rapor** — Toplam, tamamlanan, bekleyen görev istatistikleri
-- **Kural Tabanlı Öneriler** — Gecikmiş görevler, bugünkü görevler, yaklaşan tarihler
-- **İsteğe Bağlı OpenAI** — Yalnızca etkinleştirildiğinde ve yalnızca kritik durumlarda çalışır
-- **Google Takvim Entegrasyonu** — Her görev için OAuth gerektirmeden önceden doldurulmuş etkinlik açar
-- **İki Dilli Arayüz** — Türkçe ve İngilizce, tercih tarayıcıda saklanır
-- **Filtreleme** — Tümü, bekleyen, tamamlanan, yüksek öncelikli görünümleri
-- **Responsive Tasarım** — Masaüstü ve mobil uyumlu
+- **Görev Oluşturma**: Başlık, öncelik ve tarih ile görev ekle
+- **Öncelik Yönetimi**: Düşük, orta, yüksek seviyeleri
+- **Günlük Rapor**: Toplam, tamamlanan, bekleyen görev istatistikleri
+- **Kural Tabanlı Öneriler**: Gecikmiş görevler, bugünkü görevler, yaklaşan tarihler
+- **İsteğe Bağlı OpenAI**: Yalnızca etkinleştirildiğinde ve yalnızca kritik durumlarda çalışır
+- **Google Takvim Entegrasyonu**: Her görev için OAuth gerektirmeden önceden doldurulmuş etkinlik açar
+- **İki Dilli Arayüz**: Türkçe ve İngilizce, tercih tarayıcıda saklanır
+- **Filtreleme**: Tümü, bekleyen, tamamlanan, yüksek öncelikli görünümleri
+- **Responsive Tasarım**: Masaüstü ve mobil uyumlu
 
 ---
 
@@ -290,7 +288,7 @@ API anahtarı gerekmez. Agent, görev listesini okuyarak insan okunabilir öneri
 - Yüksek öncelik bayrakları
 - Yaklaşan son tarih uyarıları
 
-Bunlar `agent.py` içindeki kural mantığı ve şablonlarla oluşturulur — bir dil modeli tarafından değil.
+Bunlar `agent.py` içindeki kural mantığı ve şablonlarla oluşturulur, bir dil modeli tarafından değil.
 
 Örnek çıktı:
 
