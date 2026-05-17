@@ -1,7 +1,16 @@
 // API URL
-const API_URL = window.location.hostname === 'localhost' 
+const API_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:5000'
     : '';
+
+function getUserId() {
+    let userId = localStorage.getItem('taskManagerUserId');
+    if (!userId) {
+        userId = crypto.randomUUID();
+        localStorage.setItem('taskManagerUserId', userId);
+    }
+    return userId;
+}
 
 // DOM Elements
 const taskForm = document.getElementById('task-form');
@@ -145,7 +154,8 @@ async function handleAddTask(e) {
         const response = await fetch(`${API_URL}/api/gorevler`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-User-ID': getUserId()
             },
             body: JSON.stringify(taskData)
         });
@@ -170,7 +180,9 @@ async function handleAddTask(e) {
 // Load tasks
 async function loadTasks() {
     try {
-        const response = await fetch(`${API_URL}/api/gorevler`);
+        const response = await fetch(`${API_URL}/api/gorevler`, {
+            headers: { 'X-User-ID': getUserId() }
+        });
         const data = await response.json();
         
         if (data.success) {
@@ -359,7 +371,8 @@ function getPriorityText(priority) {
 async function completeTask(taskId) {
     try {
         const response = await fetch(`${API_URL}/api/gorevler/${taskId}`, {
-            method: 'PUT'
+            method: 'PUT',
+            headers: { 'X-User-ID': getUserId() }
         });
         
         const data = await response.json();
@@ -428,7 +441,8 @@ async function deleteTask(taskId) {
     
     try {
         const response = await fetch(`${API_URL}/api/gorevler/${taskId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'X-User-ID': getUserId() }
         });
         
         const data = await response.json();
@@ -449,7 +463,9 @@ async function deleteTask(taskId) {
 // Load report
 async function loadReport() {
     try {
-        const response = await fetch(`${API_URL}/api/rapor`);
+        const response = await fetch(`${API_URL}/api/rapor`, {
+            headers: { 'X-User-ID': getUserId() }
+        });
         const data = await response.json();
         
         if (data.success) {
@@ -466,7 +482,9 @@ async function loadReport() {
 // Load recommendations
 async function loadRecommendations() {
     try {
-        const response = await fetch(`${API_URL}/api/oneriler?lang=${currentLang}`);
+        const response = await fetch(`${API_URL}/api/oneriler?lang=${currentLang}`, {
+            headers: { 'X-User-ID': getUserId() }
+        });
         const data = await response.json();
         
         if (data.success) {

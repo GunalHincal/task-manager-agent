@@ -14,6 +14,9 @@ CORS(app)
 # Agent'ı oluştur
 agent = GorevYoneticisiAgent()
 
+def get_user_id():
+    return request.headers.get('X-User-ID') or 'anonymous'
+
 @app.route('/')
 def index():
     """Ana sayfa"""
@@ -23,7 +26,7 @@ def index():
 def gorevleri_getir():
     """Tüm görevleri getir"""
     try:
-        gorevler = agent.tum_gorevleri_getir()
+        gorevler = agent.tum_gorevleri_getir(get_user_id())
         return jsonify({
             "success": True,
             "gorevler": gorevler
@@ -49,7 +52,7 @@ def gorev_ekle():
                 "error": "Görev başlığı gerekli!"
             }), 400
         
-        gorev = agent.gorev_ekle(baslik, oncelik, tarih)
+        gorev = agent.gorev_ekle(baslik, oncelik, tarih, get_user_id())
         
         return jsonify({
             "success": True,
@@ -67,7 +70,7 @@ def gorev_ekle():
 def gorev_tamamla(gorev_id):
     """Görevi tamamla"""
     try:
-        gorev = agent.gorev_tamamla(gorev_id)
+        gorev = agent.gorev_tamamla(gorev_id, get_user_id())
         
         if gorev:
             return jsonify({
@@ -91,7 +94,7 @@ def gorev_tamamla(gorev_id):
 def gorev_sil(gorev_id):
     """Görevi sil"""
     try:
-        agent.gorev_sil(gorev_id)
+        agent.gorev_sil(gorev_id, get_user_id())
         return jsonify({
             "success": True,
             "message": "Görev silindi!"
@@ -106,7 +109,7 @@ def gorev_sil(gorev_id):
 def gunluk_rapor():
     """Günlük rapor getir"""
     try:
-        rapor = agent.gunluk_rapor_olustur()
+        rapor = agent.gunluk_rapor_olustur(get_user_id())
         return jsonify({
             "success": True,
             "rapor": rapor
@@ -122,7 +125,7 @@ def akilli_oneriler():
     """Akıllı önerileri getir"""
     try:
         lang = request.args.get("lang", "tr")
-        oneriler = agent.akilli_oneri_olustur(lang=lang)
+        oneriler = agent.akilli_oneri_olustur(lang=lang, user_id=get_user_id())
 
         return jsonify({
             "success": True,
@@ -139,7 +142,7 @@ def akilli_oneriler():
 def gorev_takvim_dosyasi(gorev_id):
     """Görev için .ics takvim dosyası oluşturur"""
     try:
-        gorevler = agent.tum_gorevleri_getir()
+        gorevler = agent.tum_gorevleri_getir(get_user_id())
         gorev = next((g for g in gorevler if g["id"] == gorev_id), None)
 
         if not gorev:

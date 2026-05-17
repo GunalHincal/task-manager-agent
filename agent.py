@@ -34,7 +34,7 @@ class GorevYoneticisiAgent:
         with open(self.dosya_adi, "w", encoding="utf-8") as f:
             json.dump(self.gorevler, f, ensure_ascii=False, indent=2)
 
-    def gorev_ekle(self, baslik, oncelik="orta", tarih=None):
+    def gorev_ekle(self, baslik, oncelik="orta", tarih=None, user_id=None):
         """Yeni görev ekler."""
         if tarih is None:
             tarih = datetime.now().strftime("%Y-%m-%d")
@@ -43,6 +43,7 @@ class GorevYoneticisiAgent:
 
         gorev = {
             "id": max_id + 1,
+            "user_id": user_id,
             "baslik": baslik,
             "oncelik": oncelik,
             "tarih": tarih,
@@ -54,19 +55,19 @@ class GorevYoneticisiAgent:
         self.gorevi_kaydet()
         return gorev
 
-    def gorev_sil(self, gorev_id):
+    def gorev_sil(self, gorev_id, user_id=None):
         """Görevi siler. Görev bulunduysa True, bulunamadıysa False döner."""
         onceki_uzunluk = len(self.gorevler)
 
         self.gorevler = [
             gorev for gorev in self.gorevler
-            if gorev["id"] != gorev_id
+            if not (gorev["id"] == gorev_id and (user_id is None or gorev.get("user_id") == user_id))
         ]
 
         self.gorevi_kaydet()
         return len(self.gorevler) < onceki_uzunluk
 
-    def oncelikleri_analiz_et(self):
+    def oncelikleri_analiz_et(self, user_id=None):
         """Görevleri önceliğe ve tarihe göre sıralar."""
         oncelik_sirasi = {
             "yüksek": 1,
@@ -74,8 +75,9 @@ class GorevYoneticisiAgent:
             "düşük": 3
         }
 
+        gorevler = self.tum_gorevleri_getir(user_id)
         aktif_gorevler = [
-            gorev for gorev in self.gorevler
+            gorev for gorev in gorevler
             if not gorev["tamamlandi"]
         ]
 
@@ -95,26 +97,27 @@ class GorevYoneticisiAgent:
         gorev_tarihi = datetime.strptime(tarih, "%Y-%m-%d").date()
         return (gorev_tarihi - bugun).days
 
-    def gunluk_rapor_olustur(self):
+    def gunluk_rapor_olustur(self, user_id=None):
         """Günlük görev raporunu JSON formatında döner."""
-        sirali = self.oncelikleri_analiz_et()
+        sirali = self.oncelikleri_analiz_et(user_id)
+        gorevler = self.tum_gorevleri_getir(user_id)
         tamamlanan = [
-            gorev for gorev in self.gorevler
+            gorev for gorev in gorevler
             if gorev["tamamlandi"]
         ]
 
         return {
             "tarih": datetime.now().strftime("%d.%m.%Y %H:%M"),
-            "toplam_gorev": len(self.gorevler),
+            "toplam_gorev": len(gorevler),
             "tamamlanan": len(tamamlanan),
             "bekleyen": len(sirali),
             "oncelikli_gorevler": sirali[:5]
         }
 
-    def gorev_tamamla(self, gorev_id):
+    def gorev_tamamla(self, gorev_id, user_id=None):
         """Görevi tamamlanmış olarak işaretler."""
         for gorev in self.gorevler:
-            if gorev["id"] == gorev_id:
+            if gorev["id"] == gorev_id and (user_id is None or gorev.get("user_id") == user_id):
                 gorev["tamamlandi"] = True
                 gorev["tamamlanma"] = datetime.now().strftime("%Y-%m-%d %H:%M")
                 self.gorevi_kaydet()
@@ -122,10 +125,10 @@ class GorevYoneticisiAgent:
 
         return None
 
-    def akilli_oneri_olustur(self, lang="tr"):
+    def akilli_oneri_olustur(self, lang="tr", user_id=None):
         """Agent'ın akıllı önerilerini JSON formatında döner."""
         lang = "en" if lang == "en" else "tr"
-        sirali = self.oncelikleri_analiz_et()
+        sirali = self.oncelikleri_analiz_et(user_id)
 
         if not sirali:
             if lang == "en":
@@ -236,7 +239,7 @@ class GorevYoneticisiAgent:
 
         llm_oneri = None
         if llm_gerekiyor:
-            llm_oneri = self._llm_ile_oneri_olustur(sirali, lang)
+            llm_oneri = self._llm_ile_oneri_olustur(sirali, lang, user_id)
 
         return {
             "oneriler": oneriler,
@@ -438,7 +441,7 @@ class GorevYoneticisiAgent:
 
         return False
 
-    def _llm_ile_oneri_olustur(self, sirali_gorevler, lang="tr"):
+    def _llm_ile_oneri_olustur(self, sirali_gorevler, lang="tr", user_id=None):
         """OpenAI API kullanarak doğal dil önerisi oluşturur."""
         api_key = os.getenv("OPENAI_API_KEY")
 
@@ -448,9 +451,10 @@ class GorevYoneticisiAgent:
         try:
             client = OpenAI(api_key=api_key)
 
-            toplam = len(self.gorevler)
+            gorevler = self.tum_gorevleri_getir(user_id)
+            toplam = len(gorevler)
             tamamlanan = len([
-                gorev for gorev in self.gorevler
+                gorev for gorev in gorevler
                 if gorev["tamamlandi"]
             ])
             bekleyen = len(sirali_gorevler)
@@ -556,6 +560,8 @@ Kurallar:
             print(f"LLM öneri hatası: {e}")
             return None
 
-    def tum_gorevleri_getir(self):
-        """Tüm görevleri döner."""
+    def tum_gorevleri_getir(self, user_id=None):
+        """Kullanıcıya ait görevleri döner."""
+        if user_id:
+            return [g for g in self.gorevler if g.get("user_id") == user_id]
         return self.gorevler
