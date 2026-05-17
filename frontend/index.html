@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Görev Yöneticisi Agent</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="tr">TR</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+
+            <h1 class="title" data-i18n="appTitle">📋 Görev Yöneticisi Agent</h1>
+            <p class="subtitle" data-i18n="appSubtitle">Yapay zeka destekli akıllı görev takip asistanınız</p>
+        </header>
+
+        <!-- Yeni Görev Ekleme -->
+        <section class="add-task-section">
+            <h2 class="section-title" data-i18n="addTaskTitle">➕ Yeni Görev Ekle</h2>
+            
+            <form id="task-form" class="task-form">
+                <div class="form-group">
+                    <label for="task-title" data-i18n="taskTitleLabel">Görev Başlığı</label>
+                    <input 
+                        type="text" 
+                        id="task-title" 
+                        placeholder="Örn: Proje sunumu hazırla"
+                        data-i18n-placeholder="taskTitlePlaceholder"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-priority" data-i18n="priorityLabel">Öncelik</label>
+                        <select id="task-priority">
+                            <option value="düşük" data-i18n="priorityLow">🟢 Düşük</option>
+                            <option value="orta" selected data-i18n="priorityMedium">🟡 Orta</option>
+                            <option value="yüksek" data-i18n="priorityHigh">🔴 Yüksek</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-date" data-i18n="dueDateLabel">Son Tarih</label>
+                        <input type="date" id="task-date">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-icon">➕</span>
+                    <span data-i18n="addTaskButton">Görev Ekle</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Günlük Rapor -->
+        <section class="report-section" id="report-section">
+            <h2 class="section-title" data-i18n="dailyReportTitle">📊 Günlük Rapor</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-label" data-i18n="totalTasks">Toplam Görev</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="stat-completed">0</div>
+                    <div class="stat-label" data-i18n="completedTasks">Tamamlanan</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-value" id="stat-pending">0</div>
+                    <div class="stat-label" data-i18n="pendingTasks">Bekleyen</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-value" id="current-date">-</div>
+                    <div class="stat-label" data-i18n="today">Bugün</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agent Önerileri -->
+        <section class="recommendations-section" id="recommendations-section">
+            <h2 class="section-title" data-i18n="agentRecommendationsTitle">🤖 Agent Önerileri</h2>
+            <div id="recommendations-content" class="recommendations-content">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p data-i18n="recommendationsLoading">Öneriler analiz ediliyor...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Görevler Listesi -->
+        <section class="tasks-section">
+            <h2 class="section-title" data-i18n="myTasksTitle">📋 Görevlerim</h2>
+            
+            <div class="filter-tabs">
+                <button class="tab-btn active" data-filter="all" data-i18n="filterAll">Tümü</button>
+                <button class="tab-btn" data-filter="pending" data-i18n="filterPending">Bekleyen</button>
+                <button class="tab-btn" data-filter="completed" data-i18n="filterCompleted">Tamamlanan</button>
+                <button class="tab-btn" data-filter="yüksek" data-i18n="filterHigh">🔴 Yüksek Öncelik</button>
+            </div>
+
+            <div id="tasks-list" class="tasks-list">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p data-i18n="emptyTasks">Henüz görev eklenmemiş</p>
+                    <small data-i18n="emptyTasksHint">Yukarıdan yeni görev ekleyerek başlayın!</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p data-i18n="footerText">Powered by AI Agent • Medium Yazısından Öğrendiniz 🚀</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
